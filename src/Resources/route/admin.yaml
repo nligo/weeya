@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    defaults: { _controller: 'App\Controller\DefaultController::index' }
+
+admin_user:
+   resource: "route/admin/user.yaml"
+   prefix:   /user
