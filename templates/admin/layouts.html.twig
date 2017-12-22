@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    {% block meta %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endblock %}
+
+    {% block title %}
+    <title>title</title>
+    {% endblock %}
+
+    {% block stylesheets %}
+    <link href="{{ asset('assets/admin/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/admin.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/build/vendor.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {% block stylesheets_inline %}{% endblock %}
+
+</head>
+<body>
+
+{% block body %}
+<nav id="nav" class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand col-sm-3 col-md-2" {% if collapsed_is_close('sidebar') %}style="display: none"{% endif %} href="{{ path('app_index') }}">答题通总平台</a>
+    <div class="collapse navbar-collapse">
+        <a id="nav-toggle" href="{{ collapsed_url('sidebar') }}">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </a>
+    </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="navbar-collapse justify-content-end pr-2">
+        <img src="{{ asset('assets/img/loading.gif') }}" id="global-loading" />
+        <ul class="navbar-nav mr-2 ml-3">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{{ path('app_user_reset_password') }}">
+                        <i class="fa fa-unlock-alt" aria-hidden="true"></i> &nbsp;修改密码
+                    </a>
+                    <a class="dropdown-item" href="{{ path('app_logout') }}">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i> 退出
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="menu" class="col-sm-3 col-md-2 d-none bg-dark{% if collapsed_is_open('sidebar') %} d-sm-block{% endif %}">
+            {% if is_granted('base') %}
+            <dl class="navs">
+                <dt>基础</dt>
+                <dd>
+                    <a href="{{ path('app_region') }}">地区管理<i class="fa fa-globe" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_version') }}">版本管理<i class="fa fa-code-fork" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_complex') }}">难度管理<i class="fa fa-sort-amount-asc" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_subject') }}">科目管理<i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i></a>
+                </dd>
+            </dl>
+            {% endif %}
+
+            {% if is_granted('content') %}
+            <dl class="navs">
+                <dt>内容</dt>
+                <dd>
+                    {% if is_granted('model_menu') %}
+                    <a href="{{ path('app_model') }}">题型管理<i class="fa fa-question-circle" aria-hidden="true"></i></a>
+                    {% endif %}
+
+                    {% if is_granted('textbook_menu') %}
+                    <a href="{{ path('app_textbook') }}">教材管理<i class="fa fa-file-powerpoint-o" aria-hidden="true"></i></a>
+                    {% endif %}
+
+                    <a href="{{ path('app_question') }}">试题管理<i class="fa fa-list" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_paper') }}">试卷管理<i class="fa fa-industry" aria-hidden="true"></i></a>
+
+                    {% if is_granted('user_menu') %}
+                    <a href="{{ path('app_user') }}">用户管理<i class="fa fa-user" aria-hidden="true"></i></a>
+                    {% endif %}
+                </dd>
+            </dl>
+            {% endif %}
+
+            {% if is_granted('stat') %}
+            <dl class="navs">
+                <dt>统计</dt>
+                <dd>
+                    <a href="{{ path('app_stats_billing') }}">计费统计<i class="fa fa-table" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_stats_users') }}">用户统计<i class="fa fa-table" aria-hidden="true"></i></a>
+                    <a href="{{ path('app_stats_uses') }}">使用统计<i class="fa fa-table" aria-hidden="true"></i></a>
+                </dd>
+            </dl>
+            {% endif %}
+        </nav>
+        <main id="main" class="{% if collapsed_is_close('sidebar') %}col-sm-12 col-md-12{% else %}col-sm-9 col-md-10 ml-sm-auto{% endif %}">
+            {% block main %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{# <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/admin.js') }}"></script> #}
+<script src="{{ asset('assets/build/vendor.js') }}"></script>
+{% endblock %}
+
+{% block javascripts_inline %}{% endblock %}
+
+</body>
+</html>
