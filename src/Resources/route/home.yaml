@@ -3,5 +3,7 @@
 #    defaults: { _controller: 'App\Controller\DefaultController::index' }
 
 home_index:
-    path:      /
+    path:      /{_locale}
     controller: App\Controller\Home\IndexController::index
+    defaults:
+        _locale: zn

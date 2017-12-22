@@ -4,4 +4,3 @@ admin:
 
 home:
    resource: "route/home.yaml"
-   prefix:   /{_locale}
