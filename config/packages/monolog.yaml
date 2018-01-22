@@ -1,0 +1,33 @@
+monolog:
+    handlers:
+        rotate_handler:
+            type:  rotating_file
+            path:  '%kernel.logs_dir%/rotates/%kernel.environment%.log'
+            level: debug
+        syslog_handler:
+            type: syslog
+            # log error-level messages and higher
+            level: error
+
+        mail:
+            type:         fingers_crossed
+            # 500 errors are logged at the critical level
+            action_level: critical
+            # to also log 400 level errors (but not 404's):
+            # action_level: error
+            # excluded_404s:
+            #     - ^/
+            handler:      deduplicated
+        deduplicated:
+            type:    deduplication
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: 'coffey@weeya.net'
+            to_email:   '825482785@qq.com'
+            # or list of recipients
+            # to_email:   ['dev1@example.com', 'dev2@example.com', ...]
+            subject:    'An Error Occurred! %%message%%'
+            level:      debug
+            formatter:  monolog.formatter.html
+            content_type: text/html

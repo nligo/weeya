@@ -1,7 +1,3 @@
-#index:
-#    path: /
-#    defaults: { _controller: 'App\Controller\DefaultController::index' }
-
 home_index:
     path:      /{_locale}
     controller: App\Controller\Home\IndexController::index
